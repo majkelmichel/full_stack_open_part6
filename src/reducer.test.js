@@ -62,4 +62,17 @@ describe('unicafe reducer', () => {
 			bad: 1
 		});
 	});
+
+	test('action ZERO resets stats', () => {
+		const state = initialState;
+		deepFreeze(state);
+		const firstState = counterReducer(state, { type: 'GOOD' });
+		deepFreeze(firstState);
+		const secondState = counterReducer(firstState, { type: 'GOOD' });
+		deepFreeze(secondState);
+		const thirdState = counterReducer(secondState, { type: 'BAD' });
+		deepFreeze(thirdState);
+		const lastState = counterReducer(thirdState, { type: 'ZERO' });
+		expect(lastState).toEqual(initialState);
+	});
 });
