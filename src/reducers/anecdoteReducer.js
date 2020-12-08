@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes';
+
 const anecdotesAtStart = [
 	'If it hurts, do it more often',
 	'Adding manpower to a late software project makes it later!',
@@ -23,7 +25,7 @@ const initialState = anecdotesAtStart.map(asObject);
 const anecdoteReducer = (state = initialState, action) => {
 	// console.log('state now: ', state);
 	// console.log('action', action);
-	switch(action.type) {
+	switch (action.type) {
 		case 'VOTE':
 			const anecdoteToChange = state.find(a => a.id === action.data.id);
 			const changedAnecdote = {
@@ -37,7 +39,7 @@ const anecdoteReducer = (state = initialState, action) => {
 
 		case 'NEWANECDOTE':
 			const anecdote = action.data;
-			return [...state, anecdote];
+			return [ ...state, anecdote ];
 
 		default:
 			return state;
@@ -58,10 +60,13 @@ export const createAnecdote = (content) => {
 	};
 };
 
-export const initializeAnecdotes = (anecdotes) => {
-	return {
-		type: 'INIT_ANECDOTES',
-		data: anecdotes
+export const initializeAnecdotes = () => {
+	return async dispatch => {
+		const anecdotes = await anecdoteService.getAll();
+		dispatch({
+			type: 'INIT_ANECDOTES',
+			data: anecdotes
+		});
 	};
 };
 
