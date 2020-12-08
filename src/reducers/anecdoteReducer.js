@@ -32,6 +32,9 @@ const anecdoteReducer = (state = initialState, action) => {
 			};
 			return state.map(a => a.id === action.data.id ? changedAnecdote : a);
 
+		case 'INIT_ANECDOTES':
+			return action.data;
+
 		case 'NEWANECDOTE':
 			const anecdote = action.data;
 			return [...state, anecdote];
@@ -53,6 +56,13 @@ export const createAnecdote = (content) => {
 		type: 'NEWANECDOTE',
 		data: { content, votes: 0 },
 		id: getId()
+	};
+};
+
+export const initializeAnecdotes = (anecdotes) => {
+	return {
+		type: 'INIT_ANECDOTES',
+		data: anecdotes
 	};
 };
 
