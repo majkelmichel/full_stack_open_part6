@@ -10,7 +10,7 @@ const AnecdoteList = () => {
 	const dispatch = useDispatch();
 
 	const vote = (a) => {
-		dispatch(voteFor(a.id));
+		dispatch(voteFor(a));
 		dispatch(setNotification(a.content));
 		setTimeout(() => dispatch(setNotification(null)), 5000);
 	};
@@ -18,21 +18,21 @@ const AnecdoteList = () => {
 	return (
 		<div>
 			{anecdotes
-				.sort((a,b) => a.votes < b.votes)
+				.sort((a, b) => a.votes < b.votes)
 				.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
 				.map(anecdote =>
-				<div key={anecdote.id}>
-					<div>
-						{anecdote.content}
+					<div key={anecdote.id}>
+						<div>
+							{anecdote.content}
+						</div>
+						<div>
+							has {anecdote.votes}
+							<button onClick={() => vote(anecdote)}>vote</button>
+						</div>
 					</div>
-					<div>
-						has {anecdote.votes}
-						<button onClick={() => vote(anecdote)}>vote</button>
-					</div>
-				</div>
-			)}
+				)}
 		</div>
-	)
-}
+	);
+};
 
 export default AnecdoteList;
